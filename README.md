@@ -49,7 +49,7 @@ Non-mandatory hints are provided within the code.
 
 ### Task 2: The Monitor
 
-Implement the Monitor class for the problem. Make sure it is correct, deadlock- and
+Implement the Monitor class for the problem. Make sure it is correct, deadlock-free and
 starvation-free implementation that uses Java’s synchronization primitives, such as wait() and
 notifyAll(); no use of Semaphore objects is allowed. Implement the four methods of the Monitor
 class; specifically, pickUp(), putDown(), requestTalk(), and endTalk(). Add as many member

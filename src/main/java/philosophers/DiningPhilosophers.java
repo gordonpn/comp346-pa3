@@ -63,8 +63,9 @@ public class DiningPhilosophers {
 
             // Main waits for all its children to die...
             // I mean, philosophers to finish their dinner.
-            for (int j = 0; j < iPhilosophers; j++)
+            for (int j = 0; j < iPhilosophers; j++) {
                 aoPhilosophers[j].join();
+            }
 
             System.out.println("All philosophers have left. System terminates normally.");
         } catch (InterruptedException e) {
