@@ -171,7 +171,20 @@ public class Monitor {
      * (while she is not eating).
      */
     public synchronized void requestTalk() {
-        // ...
+        try {
+            numOfPhilosophersWaitingToTalk++;
+
+            while (philosopherIsTalking) {
+                DiningPhilosophers.soMonitor.wait();
+            }
+
+            numOfPhilosophersWaitingToTalk--;
+            philosopherIsTalking = true;
+        } catch (InterruptedException e) {
+            System.err.println("Monitor.requestTalk():");
+            DiningPhilosophers.reportException(e);
+            System.exit(1);
+        }
     }
 
     /**
@@ -179,7 +192,11 @@ public class Monitor {
      * can feel free to start talking.
      */
     public synchronized void endTalk() {
-        // ...
+        philosopherIsTalking = false;
+
+        if (numOfPhilosophersWaitingToTalk > 0) {
+            DiningPhilosophers.soMonitor.notifyAll();
+        }
     }
 }
 
