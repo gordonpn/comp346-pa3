@@ -36,7 +36,6 @@ public class Monitor {
      * Constructor
      */
     public Monitor(int piNumberOfPhilosophers) {
-        // TODO: set appropriate number of chopsticks based on the # of philosophers
         numOfPhilosophers = piNumberOfPhilosophers;
         states = new ArrayList<>(numOfPhilosophers);
 

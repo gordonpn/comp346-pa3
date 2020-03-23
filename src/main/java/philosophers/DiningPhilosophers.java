@@ -1,5 +1,7 @@
 package main.java.philosophers;
 
+import java.text.MessageFormat;
+
 /**
  * Class DiningPhilosophers
  * The main starter.
@@ -41,11 +43,27 @@ public class DiningPhilosophers {
     public static void main(String[] argv) {
         try {
             /*
-             * TODO:
              * Should be settable from the command line
              * or the default if no arguments supplied.
              */
             int iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+
+            if (argv.length > 1) {
+                System.err.println("You have entered too many arguments");
+                System.exit(1);
+            } else if (argv.length == 1) {
+                try {
+                    int argNum = Integer.parseInt(argv[0]);
+                    if (argNum < 1) {
+                        throw new IllegalArgumentException();
+                    }
+                    iPhilosophers = argNum;
+                } catch (IllegalArgumentException e) {
+                    System.err.println(MessageFormat.format("{0} is not a positive integer", argv[0]));
+                    System.err.println("Usage: java DiningPhilosophers [NUMBER_OF_PHILOSOPHERS]");
+                    System.exit(1);
+                }
+            }
 
             // Make the monitor aware of how many philosophers there are
             soMonitor = new Monitor(iPhilosophers);
