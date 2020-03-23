@@ -28,11 +28,11 @@ public class Philosopher extends BaseThread {
      */
     public void eat() {
         try {
-            System.out.println(MessageFormat.format("Philosopher ID: {} has started eating", getTID()));
+            System.out.println(MessageFormat.format("Philosopher {0} has started eating", getTID()));
             Thread.yield();
             sleep((long) (Math.random() * TIME_TO_WASTE));
             Thread.yield();
-            System.out.println(MessageFormat.format("Philosopher ID: {} is done eating", getTID()));
+            System.out.println(MessageFormat.format("Philosopher {0} is done eating", getTID()));
         } catch (InterruptedException e) {
             System.err.println("Philosopher.eat():");
             DiningPhilosophers.reportException(e);
@@ -50,11 +50,11 @@ public class Philosopher extends BaseThread {
      */
     public void think() {
         try {
-            System.out.println(MessageFormat.format("Philosopher ID: {} has started thinking", getTID()));
+            System.out.println(MessageFormat.format("Philosopher {0} has started thinking", getTID()));
             Thread.yield();
             sleep((long) (Math.random() * TIME_TO_WASTE));
             Thread.yield();
-            System.out.println(MessageFormat.format("Philosopher ID: {} is done thinking", getTID()));
+            System.out.println(MessageFormat.format("Philosopher {0} is done thinking", getTID()));
         } catch (InterruptedException e) {
             System.err.println("Philosopher.think():");
             DiningPhilosophers.reportException(e);
@@ -71,11 +71,11 @@ public class Philosopher extends BaseThread {
      * - The print that they are done talking.
      */
     public void talk() {
-        System.out.println(MessageFormat.format("Philosopher ID: {} has started talking", getTID()));
+        System.out.println(MessageFormat.format("Philosopher {0} has started talking", getTID()));
         Thread.yield();
         saySomething();
         Thread.yield();
-        System.out.println(MessageFormat.format("Philosopher ID: {} is done talking", getTID()));
+        System.out.println(MessageFormat.format("Philosopher {0} is done talking", getTID()));
     }
 
     /**
@@ -121,7 +121,7 @@ public class Philosopher extends BaseThread {
                 "I’ve finished my philosophy course. Or have I?"
         };
 
-        System.out.println(MessageFormat.format("Philosopher ID: {} says {}", getTID(), astrPhrases[(int) (Math.random() * astrPhrases.length)]));
+        System.out.println(MessageFormat.format("Philosopher {0} says: {1}", getTID(), astrPhrases[(int) (Math.random() * astrPhrases.length)]));
     }
 }
 
