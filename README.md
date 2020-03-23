@@ -4,7 +4,7 @@ COMP 346 - Winter 2020
 
 Programming Assignment 3
 
-Due Date: 11:59 PM - April 3, 2020
+Due Date: 11:59 PM - April 10, 2020
 
 ## 1 Objective
 

@@ -3,6 +3,8 @@ package main.java.philosophers;
 
 import main.java.philosophers.common.BaseThread;
 
+import java.text.MessageFormat;
+
 /**
  * Class Philosopher.
  * Outlines main subroutines of our virtual philosopher.
@@ -14,6 +16,7 @@ public class Philosopher extends BaseThread {
      * Max time an action can take (in milliseconds)
      */
     public static final long TIME_TO_WASTE = 1000;
+    public static final double PROBABILITY_OF_TALKING = 0.45;
 
     /**
      * The act of eating.
@@ -25,9 +28,11 @@ public class Philosopher extends BaseThread {
      */
     public void eat() {
         try {
-            // ...
+            System.out.println(MessageFormat.format("Philosopher ID: {} has started eating", getTID()));
+            Thread.yield();
             sleep((long) (Math.random() * TIME_TO_WASTE));
-            // ...
+            Thread.yield();
+            System.out.println(MessageFormat.format("Philosopher ID: {} is done eating", getTID()));
         } catch (InterruptedException e) {
             System.err.println("Philosopher.eat():");
             DiningPhilosophers.reportException(e);
@@ -44,7 +49,17 @@ public class Philosopher extends BaseThread {
      * - The print that they are done thinking.
      */
     public void think() {
-        // ...
+        try {
+            System.out.println(MessageFormat.format("Philosopher ID: {} has started thinking", getTID()));
+            Thread.yield();
+            sleep((long) (Math.random() * TIME_TO_WASTE));
+            Thread.yield();
+            System.out.println(MessageFormat.format("Philosopher ID: {} is done thinking", getTID()));
+        } catch (InterruptedException e) {
+            System.err.println("Philosopher.think():");
+            DiningPhilosophers.reportException(e);
+            System.exit(1);
+        }
     }
 
     /**
@@ -56,11 +71,11 @@ public class Philosopher extends BaseThread {
      * - The print that they are done talking.
      */
     public void talk() {
-        // ...
-
+        System.out.println(MessageFormat.format("Philosopher ID: {} has started talking", getTID()));
+        Thread.yield();
         saySomething();
-
-        // ...
+        Thread.yield();
+        System.out.println(MessageFormat.format("Philosopher ID: {} is done talking", getTID()));
     }
 
     /**
@@ -77,17 +92,16 @@ public class Philosopher extends BaseThread {
             think();
 
             /*
-             * TODO:
              * A decision is made at random whether this particular
              * philosopher is about to say something terribly useful.
              */
-            if (true == false) {
-                // Some monitor ops down here...
+            if (Math.random() < PROBABILITY_OF_TALKING) {
+                DiningPhilosophers.soMonitor.requestTalk();
                 talk();
-                // ...
+                DiningPhilosophers.soMonitor.endTalk();
             }
 
-            yield();
+            Thread.yield();
         }
     } // run()
 
@@ -101,10 +115,13 @@ public class Philosopher extends BaseThread {
                 "You know, true is false and false is true if you think of it",
                 "2 + 2 = 5 for extremely large values of 2...",
                 "If thee cannot speak, thee must be silent",
-                "My number is " + getTID() + ""
+                "My number is " + getTID() + "",
+                "My local philosophy club has free why-fi.",
+                "A philosopher never sits down at work. Stands to reason.",
+                "I’ve finished my philosophy course. Or have I?"
         };
 
-        System.out.println("Philosopher " + getTID() + " says: " + astrPhrases[(int) (Math.random() * astrPhrases.length)]);
+        System.out.println(MessageFormat.format("Philosopher ID: {} says {}", getTID(), astrPhrases[(int) (Math.random() * astrPhrases.length)]));
     }
 }
 
