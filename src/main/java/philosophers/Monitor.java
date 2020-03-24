@@ -2,7 +2,6 @@ package main.java.philosophers;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.concurrent.locks.Condition;
 
 /**
  * Class Monitor
@@ -28,7 +27,6 @@ public class Monitor {
     }
 
     private ArrayList<Status> states;
-    private Condition talking;
 
     int numOfPhilosophers;
 
@@ -53,11 +51,17 @@ public class Monitor {
     private void check(int index) {
 
         if (bothChopsticksAreFree(index) && wantsToEat(index)) {
+
+            System.out.println(MessageFormat.format("Philosopher {0} has both chopsticks", index + 1));
             states.set(index, Status.EATING);
+
         } else if (rightChopstickIsFree(index) && wantsToEat(index)) {
+
             System.out.println(MessageFormat.format("Philosopher {0} takes the chopstick on his right", index + 1));
             states.set(index, Status.HAS_RIGHT_CHOPSTICK);
+
         } else if (leftChopstickIsFree(index) && wantsToEat(index)) {
+
             System.out.println(MessageFormat.format("Philosopher {0} takes the chopstick on his left", index + 1));
             states.set(index, Status.HAS_LEFT_CHOPSTICK);
         }
@@ -122,16 +126,23 @@ public class Monitor {
 
         try {
             states.set(id, Status.HUNGRY);
+            System.out.println(MessageFormat.format("Philosopher {0} is hungry", philosopherThreadId));
+
             while (isHungry(id) || hasRightChopstick(id) || hasLeftChopstick(id)) {
                 check(id);
 
                 if (isHungry(id)) {
+
                     System.out.println(MessageFormat.format("Philosopher {0} is hungry", philosopherThreadId));
                     DiningPhilosophers.soMonitor.wait();
+
                 } else if (hasRightChopstick(id)) {
+
                     System.out.println(MessageFormat.format("Philosopher {0} has the right chopstick", philosopherThreadId));
                     DiningPhilosophers.soMonitor.wait();
+
                 } else if (hasLeftChopstick(id)) {
+
                     System.out.println(MessageFormat.format("Philosopher {0} has the left chopstick", philosopherThreadId));
                     DiningPhilosophers.soMonitor.wait();
                 }
@@ -151,17 +162,20 @@ public class Monitor {
         int id = philosopherThreadId - 1;
 
         states.set(id, Status.FULL);
+        System.out.println(MessageFormat.format("Philosopher {0} is full", philosopherThreadId));
 
         check(onLeft(id));
 
         if (isEating(onLeft(id))) {
             DiningPhilosophers.soMonitor.notifyAll();
+            System.out.println(MessageFormat.format("Philosopher {0} is eating", onLeft(id) + 1));
         }
 
         check(onRight(id));
 
         if (isEating(onRight(id))) {
             DiningPhilosophers.soMonitor.notifyAll();
+            System.out.println(MessageFormat.format("Philosopher {0} is eating", onRight(id) + 1));
         }
     }
 
