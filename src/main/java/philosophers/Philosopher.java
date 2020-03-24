@@ -81,6 +81,7 @@ public class Philosopher extends BaseThread {
     /**
      * No, this is not the act of running, just the overridden Thread.run()
      */
+    @Override
     public void run() {
         for (int i = 0; i < DiningPhilosophers.DINING_STEPS; i++) {
             DiningPhilosophers.soMonitor.pickUp(getTID());
