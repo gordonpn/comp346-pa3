@@ -52,15 +52,21 @@ public class Monitor {
 
         if (bothChopsticksAreFree(index) && wantsToEat(index)) {
 
+            if (hasLeftChopstick(index)) {
+              System.out.println(MessageFormat.format("Philosopher {0} takes the chopstick on his right", index + 1));
+            } else if (hasRightChopstick(index)) {
+              System.out.println(MessageFormat.format("Philosopher {0} takes the chopstick on his left", index + 1));
+            }
+
             System.out.println(MessageFormat.format("Philosopher {0} has both chopsticks", index + 1));
             states.set(index, Status.EATING);
 
-        } else if (rightChopstickIsFree(index) && wantsToEat(index)) {
+        } else if (rightChopstickIsFree(index) && wantsToEat(index) && !hasRightChopstick(index)) {
 
             System.out.println(MessageFormat.format("Philosopher {0} takes the chopstick on his right", index + 1));
             states.set(index, Status.HAS_RIGHT_CHOPSTICK);
 
-        } else if (leftChopstickIsFree(index) && wantsToEat(index)) {
+        } else if (leftChopstickIsFree(index) && wantsToEat(index) && !hasLeftChopstick(index)) {
 
             System.out.println(MessageFormat.format("Philosopher {0} takes the chopstick on his left", index + 1));
             states.set(index, Status.HAS_LEFT_CHOPSTICK);
@@ -105,10 +111,12 @@ public class Monitor {
         return states.get(index) == Status.HAS_LEFT_CHOPSTICK;
     }
 
+    //The right chopstick is only free when the guy on the right is not eating and does not have HIS left chopstick
     private boolean rightChopstickIsFree(int index) {
         return !(isEating(onRight(index)) || hasLeftChopstick(onRight(index)));
     }
 
+    //The left chopstick is only free when the guy the left is not eating and does not have HIS right chopstick
     private boolean leftChopstickIsFree(int index) {
         return !(isEating(onLeft(index)) || hasRightChopstick(onLeft(index)));
     }
